@@ -10,6 +10,19 @@ class NasaRSSService
 
     protected ?string $body;
 
+    protected ?int $page;
+
+    private ?array $params;
+
+    /**
+     * @var array|mixed
+     */
+    private $perPage;
+
+    /**
+     * @var array|mixed
+     */
+    private $resultCount;
 
     public function __construct()
     {
@@ -24,9 +37,29 @@ class NasaRSSService
      *
      * @return self
      */
-    public function getImages(array $params): self
+    public function getImages(array $params = []): self
     {
-        $this->body = Http::get($this->endPoint, $params);
+        if (!empty($params)) {
+            $this->params = $params;
+        }
+
+        if (!empty($this->page)) {
+            $this->params['page'] = $this->page;
+        }
+
+        unset($this->body);
+
+        $this->body = Http::get($this->endPoint, $this->params);
+
+        $body = json_decode($this->body, true);
+
+        $this->page = data_get($body, 'page');
+
+        $this->perPage = data_get($body, 'per_page');
+
+        $this->resultCount = count(data_get($body, 'images'));
+
+        unset($body);
 
         return $this;
     }
@@ -45,5 +78,23 @@ class NasaRSSService
     public function toArray(): array
     {
         return json_decode($this->getBody(), true);
+    }
+
+    /**
+     * @return self
+     */
+    public function nextPage(): self
+    {
+        if ($this->resultCount < $this->perPage) {
+            $this->body = null;
+
+            return $this;
+        }
+
+        $this->page++;
+
+        $this->getImages();
+
+        return $this;
     }
 }
