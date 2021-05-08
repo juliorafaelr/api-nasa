@@ -20,7 +20,7 @@ class SaveImages extends Command
      *
      * @var string
      */
-    protected $description = 'Display an inspiring quote';
+    protected $description = 'save nasa images into sqlite';
 
     /**
      * Execute the console command.
@@ -40,7 +40,12 @@ class SaveImages extends Command
             'extended' => 'sample_type::full'
         ];
 
-        dump($nasaRSSService->getImages($params)->toArray());
+        $nasaRSSService->getImages($params);
+
+        do {
+            //here is the content of every image
+            dump($nasaRSSService->toArray());
+        } while($nasaRSSService->nextPage());
 
         return 0;
     }

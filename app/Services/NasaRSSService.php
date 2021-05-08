@@ -81,20 +81,20 @@ class NasaRSSService
     }
 
     /**
-     * @return self
+     * @return bool
      */
-    public function nextPage(): self
+    public function nextPage(): bool
     {
         if ($this->resultCount < $this->perPage) {
             $this->body = null;
 
-            return $this;
+            return false;
         }
 
         $this->page++;
 
         $this->getImages();
 
-        return $this;
+        return true;
     }
 }

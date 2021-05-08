@@ -20,7 +20,8 @@
         "guzzlehttp/guzzle": "^6.5.5",
         "illuminate/http": "^8.0",
         "laravel-zero/framework": "^8.7",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "mockery/mockery": "^1.4.2",
