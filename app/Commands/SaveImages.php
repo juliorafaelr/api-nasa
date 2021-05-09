@@ -5,6 +5,7 @@ namespace App\Commands;
 use App\Services\NasaRSSService;
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
+use Illuminate\Support\Facades\DB;
 
 class SaveImages extends Command
 {
@@ -27,7 +28,7 @@ class SaveImages extends Command
      *
      * @return mixed
      */
-    public function handle(NasaRSSService $nasaRSSService)
+    public function handle(NasaRSSService $nasaRSSService): int
     {
         $params = [
             'feed' => 'raw_images',
@@ -43,9 +44,26 @@ class SaveImages extends Command
         $nasaRSSService->getImages($params);
 
         do {
-            //here is the content of every image
-            dump($nasaRSSService->toArray());
-        } while($nasaRSSService->nextPage());
+            $images = data_get($nasaRSSService->toArray(), 'images');
+
+            $insert = [];
+
+            foreach ($images as $image) {
+                $row = [];
+
+                foreach ($image as $fieldName => $value) {
+                    if (is_array($value)) {
+                        $row[ $fieldName ] = json_encode($value);
+                    } else {
+                        $row[ $fieldName ] = $value;
+                    }
+                }
+
+                $insert[] = $row;
+            }
+
+            DB::table('images')->insert($insert);
+        } while ($nasaRSSService->nextPage());
 
         return 0;
     }

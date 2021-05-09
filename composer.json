@@ -17,13 +17,15 @@
     ],
     "require": {
         "php": "^7.4|^8.0",
-        "guzzlehttp/guzzle": "^6.5.5",
-        "illuminate/http": "^8.0",
-        "laravel-zero/framework": "^8.7",
         "ext-json": "*",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "guzzlehttp/guzzle": "^6.5.5",
+        "illuminate/database": "^8.0",
+        "illuminate/http": "^8.0",
+        "laravel-zero/framework": "^8.7"
     },
     "require-dev": {
+        "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.4.2",
         "pestphp/pest": "^1.0"
     },
