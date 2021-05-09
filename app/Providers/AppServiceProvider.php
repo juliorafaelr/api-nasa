@@ -28,12 +28,5 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(NasaRSSService::class, function() {
             return new NasaRSSService();
         });
-
-//        $this->app->bind(SqlService::class, function() {
-//            return new SqlService([
-//                'DBMS' => 'sqlite',
-//                'DBName' => __DIR__ . "/../../storage/nasa.db"
-//            ]);
-//        });
     }
 }

@@ -13,4 +13,9 @@
 
 - go to the root of the project
 - ``composer install``
-- ``php api-nasa nasa:save-images``
+- ``php api-nasa migrate``
+
+# commands
+
+- ``php api-nasa nasa:save-images`` (save images from api)
+- ``php api-nasa nasa:get-images`` (get images from DB)
