@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Services\NasaRSSService;
-use App\Services\SqlService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
